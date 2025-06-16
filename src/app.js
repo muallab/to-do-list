@@ -1,9 +1,14 @@
 const express = require('express');
-const cors = require('cors');
+const cors    = require('cors');
 const mongoose = require('mongoose');
+const { logRequest } = require('./services/logger');
 const todoRoutes = require('./routes/todos');
 
 const app = express();
+app.use((req, res, next) => {
+    logRequest(req);
+    next();
+  });
 app.use(cors());
 app.use(express.json());
 app.use('/api/todos', todoRoutes);
