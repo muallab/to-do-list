@@ -5,3 +5,38 @@ ul { list-style: none; padding: 0; }
 li { display: flex; align-items: center; padding: 4px 0; }
 li.completed span { text-decoration: line-through; color: #888; }
 button.delete { margin-left: auto; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  /* Cell borders and padding */
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  /* Header background and text alignment */
+  th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  /* Zebra striping */
+  tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+  
+  /* Highlight on hover */
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive: allow horizontal scroll on small screens */
+  @media (max-width: 600px) {
+    .container, #table-container {
+      overflow-x: auto;
+    }
+  }
