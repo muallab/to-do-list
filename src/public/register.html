@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head>
+    <meta charset="UTF-8"><title>Register</title>
+  </head><body>
+    <h1>Register</h1>
+    <form id="reg-form">
+      <input id="username" placeholder="Username" required /><br/>
+      <input id="password" type="password" placeholder="Password" required /><br/>
+      <button type="submit">Sign Up</button>
+    </form>
+    <script>
+    document.getElementById('reg-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const u = username.value, p = password.value;
+      const res = await fetch('/api/auth/register', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ username:u, password:p })
+      });
+      if (res.ok) alert('Registered! Please log in.');
+      else alert('Registration failed.');
+    });
+    </script>
+  </body></html>
+  

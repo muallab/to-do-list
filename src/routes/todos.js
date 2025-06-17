@@ -1,33 +1,41 @@
 const express = require('express');
-const Todo = require('../models/Todo');
-const router = express.Router();
+const Todo    = require('../models/Todo');
+const router  = express.Router();
 
-// GET all
+// GET only this user’s todos
 router.get('/', async (req, res) => {
-  const todos = await Todo.find().sort('-createdAt');
+  const todos = await Todo.find({ user: req.userId })
+                          .sort('-createdAt');
   res.json(todos);
 });
 
-// POST new
+// POST new todo for this user
 router.post('/', async (req, res) => {
-  const newTodo = new Todo({ text: req.body.text });
-  const saved = await newTodo.save();
-  res.json(saved);
+  const todo = await Todo.create({
+    text: req.body.text,
+    user: req.userId
+  });
+  res.json(todo);
 });
 
-// PATCH update
+// PATCH update only if it belongs to this user
 router.patch('/:id', async (req, res) => {
-  const updated = await Todo.findByIdAndUpdate(
-    req.params.id,
+  const todo = await Todo.findOneAndUpdate(
+    { _id: req.params.id, user: req.userId },
     { completed: req.body.completed },
     { new: true }
   );
-  res.json(updated);
+  if (!todo) return res.sendStatus(404);
+  res.json(todo);
 });
 
-// DELETE
+// DELETE only if it belongs to this user
 router.delete('/:id', async (req, res) => {
-  await Todo.findByIdAndDelete(req.params.id);
+  const result = await Todo.deleteOne({
+    _id: req.params.id,
+    user: req.userId
+  });
+  if (result.deletedCount === 0) return res.sendStatus(404);
   res.sendStatus(204);
 });
 
