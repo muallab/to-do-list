@@ -2,16 +2,12 @@
 const container = document.getElementById('table-container');
 
 fetch('/api/todos', {
-  credentials: 'include'   // ← send the login cookie
+  credentials: 'include'
 })
   .then(res => {
     if (res.status === 401) {
-      // not logged in? send back to login page
       window.location.href = '/login.html';
       throw new Error('Not authorized');
-    }
-    if (!res.ok) {
-      throw new Error(`Error ${res.status}`);
     }
     return res.json();
   })
@@ -20,14 +16,26 @@ fetch('/api/todos', {
       container.textContent = 'No todos to display.';
       return;
     }
-    // build the table
-    const cols = Object.keys(todos[0]);
+
+    // Only these columns:
+    const cols = ['text', 'completed', 'createdAt'];
+
+    // Build header
     let html = '<table><thead><tr>' +
       cols.map(c => `<th>${c}</th>`).join('') +
       '</tr></thead><tbody>';
+
+    // Build rows
     todos.forEach(todo => {
-      html += '<tr>' + cols.map(c => `<td>${todo[c]}</td>`).join('') + '</tr>';
+      html += '<tr>' +
+        [
+          todo.text,
+          todo.completed ? '✔️' : '❌',
+          new Date(todo.createdAt).toLocaleString()
+        ].map(val => `<td>${val}</td>`).join('') +
+      '</tr>';
     });
+
     html += '</tbody></table>';
     container.innerHTML = html;
   })
@@ -35,5 +43,3 @@ fetch('/api/todos', {
     console.error(err);
     container.textContent = 'Failed to load todos.';
   });
-
-  

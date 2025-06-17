@@ -1,22 +1,23 @@
+<!-- src/public/admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin View</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <nav>
-          <a href="/">Home</a> |
-          <a href="/register.html">Register</a> |
-          <a href="/login.html">Login</a> |
-          <a href="/admin.html">Admin</a>
-        </nav>
-        <div class="container">
-          <!-- … -->      
+  <nav>
+    <a href="/">Home</a> |
+    <a href="/register.html">Register</a> |
+    <a href="/login.html">Login</a> |
+    <a href="/admin.html">Admin</a>
+  </nav>
+
   <h1>All Todos (Admin)</h1>
   <div id="table-container"></div>
-  <script src="admin.js"></script>
+
+  <!-- Defer so DOM is ready -->
+  <script defer src="admin.js"></script>
 </body>
 </html>
